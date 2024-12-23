@@ -1,0 +1,19 @@
+{
+  "name": "test_keyboard",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsx -w",
+    "dev": "node ./dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^22.10.2",
+    "ansi-escapes": "^7.0.0",
+    "typescript": "^5.7.2"
+  }
+}
