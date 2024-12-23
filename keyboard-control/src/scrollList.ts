@@ -1,5 +1,6 @@
 import { BaseUi } from "./base-ui.js";
 import chalk from 'chalk';
+import ansiEscapes from 'ansi-escapes'
 
 export class ScrollList extends BaseUi {
   // 当前的选中行

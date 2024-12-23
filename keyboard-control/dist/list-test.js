@@ -44,4 +44,5 @@ process.stdin.on('keypress', (str, key) => {
         process.stdout.write(ansiEscapes.clearTerminal);
         process.exit();
     }
+    list.onKeyInput(key.name);
 });

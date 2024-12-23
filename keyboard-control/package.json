@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "tsc -w",
-    "dev": "node ./dist/index.js"
+    "dev": "node ./dist/list-test.js"
   },
   "keywords": [],
   "author": "",
