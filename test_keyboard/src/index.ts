@@ -9,10 +9,10 @@ let curSelectIndex = 0;
 
 function start() {
   renderList()
-
 }
 
 function renderList() {
+  const {columns, rows} = getTerminalSize();
   list.forEach((item, index) => {
     if (index === curSelectIndex) {
       process.stdout.write(chalk.bgBlue(item) + '\n')
@@ -20,6 +20,14 @@ function renderList() {
       process.stdout.write(item + '\n')
     }
   })
+}
+
+function getTerminalSize(){
+  // 获取到终端的行数和列数
+  return {
+    columns : process.stdout.columns,
+    rows: process.stdout.rows,
+  }
 }
 
 start();
