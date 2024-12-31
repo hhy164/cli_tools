@@ -34,10 +34,7 @@ export class TextPrompt extends Prompt {
     process.stdout.write(ansiEscapes.eraseLine)
     // 移动光标到当前行的开头
     process.stdout.write(ansiEscapes.cursorTo(0))
-    process.stdout.write(`${chalk.bold(this.options.message)}
-    ${chalk.gray(',')}
-    ' '
-    ${chalk.blue(this.value)}`)
+    process.stdout.write(`${chalk.bold(this.options.message)}${chalk.gray('›')} ${chalk.blue(this.value)}`)
     /**
      * 保存当前光标位置，以便后续可以通过恢复光标位置的命令将光标移动
      * 回到保存的位置，这是通过ANSI转义序列实现的功能，常用于终端光标控制
