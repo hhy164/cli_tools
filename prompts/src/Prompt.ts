@@ -25,7 +25,7 @@ export abstract class Prompt extends EventEmitter {
     this.rl = readline.createInterface({ input: process.stdin })
     process.stdin.setRawMode(true)
     onKeypress = this.onKeypress.bind(this)
-    process.stdin.on('keypress', this.onKeypress)
+    process.stdin.on('keypress', onKeypress)
   }
 
   /**

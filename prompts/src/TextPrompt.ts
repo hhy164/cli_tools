@@ -45,7 +45,7 @@ export class TextPrompt extends Prompt {
     // ansiEscapes.cursorDown(1)->光标向下移动1行
     process.stdout.write(ansiEscapes.cursorDown(1) + ansiEscapes.cursorTo(0))
     if (this.value === '') {
-      process.stdout.write(chalk.red('请输入名字'))
+      process.stdout.write(chalk.red(`请输入${this.options.message}`))
     } else {
       // 清空行
       process.stdout.write(ansiEscapes.eraseLine)
