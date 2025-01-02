@@ -3,9 +3,9 @@ import { Key, Prompt } from './Prompt.js';
 import chalk from 'chalk';
 
 export interface TextPromptOptions {
-  type: 'text',
-  name: string,
-  message: string
+  type: 'text';
+  name: string;
+  message: string;
 }
 // 判断是否是非打印字符
 function isNonPrintableChar(char: string) {
@@ -17,9 +17,9 @@ export class TextPrompt extends Prompt {
   constructor(private options: TextPromptOptions) {
     super();
   }
-  onKeyInput(str: string, key: Key): void {
+  onKeyInput(str: string, key: Key) {
     // backspace是删除键-delete
-    if (key.name === 'backspace') {
+    if (key.name === 'backspace' && this.cursor > 0) {
       this.cursor--;
       this.value = this.value.slice(0, this.cursor)
     }
@@ -35,6 +35,7 @@ export class TextPrompt extends Prompt {
     // 移动光标到当前行的开头
     process.stdout.write(ansiEscapes.cursorTo(0))
     process.stdout.write(`${chalk.bold(this.options.message)}${chalk.gray('›')} ${chalk.blue(this.value)}`)
+
     /**
      * 保存当前光标位置，以便后续可以通过恢复光标位置的命令将光标移动
      * 回到保存的位置，这是通过ANSI转义序列实现的功能，常用于终端光标控制

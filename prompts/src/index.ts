@@ -1,10 +1,12 @@
 import { TextPromptOptions, TextPrompt } from './TextPrompt.js'
 
+export type PromptOptions = TextPromptOptions;
+
 const map: Record<string, any> = {
   text: TextPrompt
 }
 
-async function runPrompt(question: TextPromptOptions) {
+async function runPrompt(question: PromptOptions) {
   const promptClass = map[question.type];
   if (!promptClass) return null;
   return new Promise((resolve) => {
@@ -17,7 +19,7 @@ async function runPrompt(question: TextPromptOptions) {
   })
 }
 
-export async function prompt(question: TextPromptOptions[]) {
+export async function prompt(question: PromptOptions[]) {
   const answer: Record<string, any> = {};
   for (const item of question) {
     const key = item.name;
@@ -26,7 +28,7 @@ export async function prompt(question: TextPromptOptions[]) {
   return answer
 }
 
-const questions: TextPromptOptions[] = [
+const questions: PromptOptions[] = [
   {
     message: "你的名字?",
     type: 'text',

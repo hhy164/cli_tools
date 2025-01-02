@@ -40,6 +40,7 @@ export abstract class Prompt extends EventEmitter {
     }
     if (key.name === 'return') {
       this.close()
+      return;
     }
     this?.onKeyInput(str, key)
   }
