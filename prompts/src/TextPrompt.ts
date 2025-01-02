@@ -34,6 +34,7 @@ export class TextPrompt extends Prompt {
     process.stdout.write(ansiEscapes.eraseLine)
     // 移动光标到当前行的开头
     process.stdout.write(ansiEscapes.cursorTo(0))
+
     process.stdout.write(`${chalk.bold(this.options.message)}${chalk.gray('›')} ${chalk.blue(this.value)}`)
 
     /**
@@ -43,6 +44,9 @@ export class TextPrompt extends Prompt {
      * 可以通过ansiEscapes.cursorRestorePosition恢复到保存的位置
      */
     process.stdout.write(ansiEscapes.cursorSavePosition);
+    // 为了避免终端已经在最后一行而导致cursorDown(1)下移失败，所以先做一个换行操作，然后回到前一行
+    process.stdout.write('\n');
+    process.stdout.write(ansiEscapes.cursorUp(1));
     // ansiEscapes.cursorDown(1)->光标向下移动1行
     process.stdout.write(ansiEscapes.cursorDown(1) + ansiEscapes.cursorTo(0))
     if (this.value === '') {

@@ -1,9 +1,11 @@
 import { TextPromptOptions, TextPrompt } from './TextPrompt.js'
+import { SelectPrompt, SelectPromptOptions } from './SelectPrompt.js';
 
-export type PromptOptions = TextPromptOptions;
+export type PromptOptions = TextPromptOptions | SelectPromptOptions;
 
 const map: Record<string, any> = {
-  text: TextPrompt
+  text: TextPrompt,
+  select: SelectPrompt
 }
 
 async function runPrompt(question: PromptOptions) {
@@ -37,6 +39,15 @@ const questions: PromptOptions[] = [
     message: '年龄？',
     type: 'text',
     name: 'age'
+  }, {
+    message: '你的班级',
+    type: 'select',
+    name: "class",
+    choices: [
+      '一班',
+      '二班',
+      '三班'
+    ]
   }
 ]
 
