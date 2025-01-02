@@ -24,9 +24,9 @@ const timer = setInterval(() => {
   if (total === 100) {
     clearInterval(timer)
   }
-  total += 2;
   progressBar.setProgress(total);
   screen.render()
+  total += 2;
 }, 100)
 
 screen.render()
