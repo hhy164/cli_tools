@@ -1,0 +1,12 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "debug test.js",
+      "console":"integratedTerminal",
+      "program": "${workspaceFolder}/cli-dashboard/test.js",
+    }
+  ]
+}
