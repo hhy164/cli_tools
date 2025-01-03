@@ -1,5 +1,6 @@
 import blessed from 'blessed'
 import contrib from 'blessed-contrib'
+import CpuMonitor from './monitor/cpu.js'
 
 const screen = blessed.screen({
   fullUnicode: true
@@ -18,11 +19,11 @@ const memoryLineChart = grid.set(4, 0, 4, 8, contrib.line, {
   showLegend: true
 })
 
-const memoryDonut = grid.set(4, 8, 2, 4, contrib.donut, {
-  label: '内存占用',
+const memDonut = grid.set(4, 8, 2, 4, contrib.donut, {
   radius: 8,
   arcWidth: 3,
-})
+  label: '内存占用',
+});
 
 const swapDonut = grid.set(6, 8, 2, 4, contrib.donut, {
   label: '交换分区',
@@ -56,3 +57,5 @@ screen.render()
 screen.key('C-c', function () {
   screen.destroy()
 })
+
+new CpuMonitor(cpuLineChart).init()
