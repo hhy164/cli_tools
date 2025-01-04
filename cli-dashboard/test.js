@@ -20,5 +20,5 @@ si.networkInterfaceDefault(iface => {
 })
 // 获取进程列表
 si.processes(data => {
-  // console.log(data)
+  console.log(data)
 })
