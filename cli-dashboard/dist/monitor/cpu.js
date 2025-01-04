@@ -2,7 +2,7 @@ import si from 'systeminformation';
 const colors = ['magenta', 'cyan', 'blue', 'yellow', 'green', 'red'];
 export default class CpuMonitor {
     constructor(line) {
-        this.cpuData = []; // 图例显示数据
+        this.cpuData = [];
         this.timer = null; // 计时器
         this.lineChart = line;
     }

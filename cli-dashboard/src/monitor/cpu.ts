@@ -14,7 +14,7 @@ type CpuData = {
 
 export default class CpuMonitor {
   lineChart: contrib.Widgets.PictureElement;
-  cpuData: CpuData[] = []; // 图例显示数据
+  cpuData: CpuData[] = []; 
   timer: NodeJS.Timeout | null = null; // 计时器
   constructor(line: contrib.Widgets.PictureElement) {
     this.lineChart = line;

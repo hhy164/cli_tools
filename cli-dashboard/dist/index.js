@@ -1,7 +1,8 @@
 import blessed from 'blessed';
 import contrib from 'blessed-contrib';
 import CpuMonitor from './monitor/cpu.js';
-import MemoryMonitor from './monitor/cpu.js';
+import MemoryMonitor from './monitor/memory.js';
+import NetMonitor from './monitor/net.js';
 const screen = blessed.screen({
     fullUnicode: true
 });
@@ -50,4 +51,5 @@ screen.key('C-c', function () {
     screen.destroy();
 });
 new CpuMonitor(cpuLineChart).init();
-new MemoryMonitor(memoryLineChart).init();
+new MemoryMonitor(memoryLineChart, memDonut, swapDonut).init();
+new NetMonitor(netSpark).init();
