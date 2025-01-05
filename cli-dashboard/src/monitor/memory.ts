@@ -56,7 +56,8 @@ export default class MemoryMonitor {
   updateData(data: si.Systeminformation.MemData) {
     let memPer = +(100 * (1 - data.available / data.total)).toFixed()
     let swapPer = +(100 * (1 - data.swapfree / data.swaptotal)).toFixed()
-    swapPer = isNaN(swapPer) ? 0 : swapPer;
+    swapPer = !!swapPer ? 0 : swapPer;
+
     this.memData[0].y.shift();
     this.memData[0].y.push(memPer)
 
@@ -65,17 +66,19 @@ export default class MemoryMonitor {
 
     this.lineChart.setData(this.memData)
 
+    const memLabel = this.formatSize(data.total - data.available) + ' of ' + this.formatSize(data.total)
+    const swapLabel = this.formatSize(data.swaptotal - data.swapfree) + ' of ' + this.formatSize(data.swaptotal)
     this.memDonut.setData([
       {
-        percent: memPer / 100,
-        label: '',
+        percent: memPer ? memPer / 100 : 0,
+        label: memLabel,
         color: colors[0]
       }
     ])
     this.swapDonut.setData([
       {
-        percent: swapPer / 100,
-        label: '',
+        percent: swapPer ? swapPer / 100 : 0,
+        label: swapLabel,
         color: colors[1]
       }
     ])
@@ -83,6 +86,12 @@ export default class MemoryMonitor {
     this.lineChart.render()
     this.memDonut.render()
     this.swapDonut.render()
-
   }
+  formatSize(bytes: number) {
+    if (bytes == 0) {
+      return '0.00 B';
+    }
+    const gb = bytes / 1024 / 1024 / 1024;
+    return gb.toFixed(2) + ' GB'
+  };
 }
