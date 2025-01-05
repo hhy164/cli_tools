@@ -45,8 +45,8 @@ export default class DiskMonitor {
     }
     const gb = bytes / 1000 / 1000 / 1000;
     if (gb > 1000) {
-      return (gb / 1000).toFixed(2) + 'TB'
+      return (gb / 1000).toFixed(2) + ' TB'
     }
-    return gb.toFixed(2) + 'GB'
+    return gb.toFixed(2) + ' GB'
   };
 }
