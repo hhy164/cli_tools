@@ -3,6 +3,7 @@ import contrib from 'blessed-contrib'
 import CpuMonitor from './monitor/cpu.js'
 import MemoryMonitor from './monitor/memory.js'
 import NetMonitor from './monitor/net.js'
+import DiskMonitor from './monitor/disk.js'
 
 const screen = blessed.screen({
   fullUnicode: true
@@ -63,3 +64,4 @@ screen.key('C-c', function () {
 new CpuMonitor(cpuLineChart).init()
 new MemoryMonitor(memoryLineChart, memDonut, swapDonut).init()
 new NetMonitor(netSpark).init()
+new DiskMonitor(diskDonut).init()
