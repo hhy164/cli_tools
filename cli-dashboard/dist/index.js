@@ -4,6 +4,7 @@ import CpuMonitor from './monitor/cpu.js';
 import MemoryMonitor from './monitor/memory.js';
 import NetMonitor from './monitor/net.js';
 import DiskMonitor from './monitor/disk.js';
+import ProcessMonitor from './monitor/process.js';
 const screen = blessed.screen({
     fullUnicode: true
 });
@@ -55,3 +56,4 @@ new CpuMonitor(cpuLineChart).init();
 new MemoryMonitor(memoryLineChart, memDonut, swapDonut).init();
 new NetMonitor(netSpark).init();
 new DiskMonitor(diskDonut).init();
+new ProcessMonitor(processTable).init();
