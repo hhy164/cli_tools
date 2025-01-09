@@ -1,5 +1,7 @@
 import minimist from 'minimist'
 import chalk from 'chalk'
+import prompts from 'prompts'
+import { FRAMEWORK, TEMPLATES, IFramework } from './config.js'
 
 // 默认目录
 const defaultDir = 'vite-project'
@@ -33,8 +35,59 @@ ${chalk.blue('solid-ts       solid')}
 ${chalk.blueBright('qwik-ts        qwik')}`
 
 async function init() {
-  const argTargetDir = formatTargetDir(args._[0]);
   const argTemplate = args.template || args.t;
+  // 项目目录
+  const argTargetDir = formatTargetDir(args._[0]);
+  let targetDir = argTargetDir || defaultDir;
+
+  let result;
+
+  try {
+    result = await prompts(
+      [{
+        // 如果终端有传入项目目录则忽略此项
+        type: argTargetDir ? null : 'text',
+        name: 'projectName',
+        message: 'Project name:',
+        initial: defaultDir, // 设置默认值
+        onState: (state) => {
+          // 输入值变化时，格式化目录
+          targetDir = formatTargetDir(state.value) || defaultDir;
+        }
+      }, {
+        type: argTemplate && TEMPLATES.includes(argTemplate) ? null : 'select',
+        name: 'Select a framework:',
+        message: '- Use arrow-keys. Return to submit',
+        initial: 0,
+        choices: FRAMEWORK.map((item) => {
+          const chalkFn = item.color;
+          return {
+            title: chalkFn(item.display || item.name),
+            value: item
+          }
+        })
+      }, {
+        // 这里的type需要以上一个问题的答案作为选项
+        type: (prev: IFramework) => {
+          return prev && prev.variants ? 'select' : null
+        },
+        name: "Select a variant:",
+        message: 'Use arrow-keys. Return to submit',
+        initial: 0,
+        choices: (prev: IFramework) => {
+          return prev.variants.map((item) => {
+            const chalkFn = item.color;
+            return {
+              title: chalkFn(item.display || item.color),
+              value: item
+            }
+          })
+        }
+      }])
+  } catch (e: any) {
+    console.log(e.message)
+    return;
+  }
 
   const help = args.help;
   if (help) {
@@ -42,7 +95,6 @@ async function init() {
     return;
   }
 
-  let targetDir = argTargetDir || defaultDir;
 }
 
 function formatTargetDir(targetDir: string | undefined) {
