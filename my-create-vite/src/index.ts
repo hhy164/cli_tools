@@ -2,6 +2,9 @@ import minimist from 'minimist'
 import chalk from 'chalk'
 import prompts from 'prompts'
 import { FRAMEWORK, TEMPLATES, IFramework } from './config.js'
+import path from 'path'
+import fs from 'fs'
+import { fileURLToPath } from 'url'
 
 // 默认目录
 const defaultDir = 'vite-project'
@@ -94,13 +97,71 @@ async function init() {
     console.log(helpMessage)
     return;
   }
+  const { 'Select a variant:': variant } = result;
+  const root = path.join(process.cwd(), targetDir);
+  let template: string = variant || argTemplate;
+  const templateDir = path.resolve(
+    fileURLToPath(import.meta.url),
+    '../..',
+    `template-${template}`
+  )
+  const renameFiles: Record<string, any> = {
+    _gitignore: '.gitignore',
+  }
+  function write(file: string, content?: string) {
+    const targetPath = path.join(root, renameFiles[file] ?? file)
+    if (content) {
+      // 同步写入数据
+      fs.writeFileSync(targetPath, content);
+    } else {
+      copy(path.join(templateDir, file), targetPath)
+    }
+  }
 
+  function copyDir(srcDir: string, destDir: string) {
+    fs.mkdirSync(destDir, { recursive: true })
+    for (const file of fs.readdirSync(srcDir)) {
+      const srcFile = path.resolve(srcDir, file)
+      const destFile = path.resolve(destDir, file)
+      // 递归拷贝文件
+      copy(srcFile, destFile)
+    }
+  }
+
+  function copy(src: string, dest: string) {
+    const stat = fs.statSync(src)
+    if (stat.isDirectory()) {
+      copyDir(src, dest)
+    } else {
+      fs.copyFileSync(src, dest)
+    }
+  }
+  if (!fs.existsSync(root)) {
+    fs.mkdirSync(root, { recursive: true })
+  }
+
+  const files = fs.readdirSync(templateDir)
+
+  for (const file of files) {
+    write(file)
+  }
+
+  const cdProjectName = path.relative(process.cwd(), root)
+  console.log(`\nDone. Now run:\n`)
+  if (root !== process.cwd()) {
+    console.log(` cd ${cdProjectName.includes(' ') ? `"${cdProjectName}"` : cdProjectName}`)
+  }
+  console.log(` npm install`)
+  console.log(` npm run dev`)
+  console.log()
 }
 
 function formatTargetDir(targetDir: string | undefined) {
   // 匹配到以/结尾的，进行替换
   return targetDir?.trim().replace(/\/+$/g, '')
 }
+
+
 
 init().catch(e => {
   console.error(e)
